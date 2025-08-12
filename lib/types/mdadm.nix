@@ -64,6 +64,10 @@
             --force \
             --homehost=any \
             "''${disk_devices[@]}"
+          mkdir -p /dev/md
+          if [ ! -e /dev/md/${config.name} ]; then
+            ln -s /dev/md127 /dev/md/${config.name}
+          fi
           partprobe "/dev/md/${config.name}"
           udevadm trigger --subsystem-match=block
           udevadm settle --timeout=120
